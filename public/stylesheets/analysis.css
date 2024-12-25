@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', serif;
+    overflow-x: hidden;
+}
+
+.loader {
+    position: relative;
+    z-index: 9999;
+}
+
+header {
+    justify-content: space-between;
+    display: flex;
+    width: calc(100vw - 50px);
+    padding: 20px 30px;
+    border-radius: 7px;
+    background-color: rgba(95, 158, 160, 0.2);
+    justify-self: center;
+    margin-top: 10px;
+    justify-items: center;
+    align-items: center;
+    z-index: 1; /* Set a lower z-index than #black */
+    position: relative; /* Ensure it is positioned relative to the stacking context */
+}
+
+#ash {
+    margin-top: -10px;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: cadetblue;
+    z-index: 0; /* Keep it behind other elements */
+}
+
+#black {
+    margin-top: -10px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10; /* Ensure it is above everything else */
+    background-color: #111;
+}
+
+#black h1 {
+	color: #dcdcdc;
+	/* Soft off-white for professionalism */
+	font-size: 3rem;
+	font-weight: 600;
+	letter-spacing: 1px;
+	font-family: 'Montserrat', sans-serif;
+	/* Modern, clean sans-serif font */
+	text-shadow:
+		0 0 5px rgba(255, 255, 255, 0.6),
+		/* Soft inner glow */
+		0 0 10px rgba(200, 200, 255, 0.4),
+		/* Subtle blueish glow for depth */
+		0 0 20px rgba(200, 200, 255, 0.2);
+	/* Fainter outer glow for elegance */
+	padding: 10px;
+	text-transform: uppercase;
+	/* Adds formality */
+}
+
+.loader {
+    z-index: 1000;
+}
+
+.container::before {
+    content: "";
+    /* Required for pseudo-elements */
+    position: fixed;
+    /* Position it absolutely within the container */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("/images/istockphoto.jpg");
+    filter: opacity(0.2);
+    background-size: contain;
+    /* Ensure the image covers the entire area */
+    background-position: center;
+    /* Center the image */
+    z-index: -1;
+    /* Place it behind the content */
+}
+
+.logo {
+	font-size: 25px;
+	font-weight: bold;
+}
+
+.buttons ul {
+	display: flex;
+	gap: 40px;
+	align-items: center;
+}
+
+.buttons ul li {
+	list-style: none;
+}
+
+.buttons ul li a {
+	padding: 6px 15px;
+	border: 1px solid #7777778e;
+	border-radius: 33px;
+	background-color: transparent;
+	color: black;
+	text-decoration: none;
+	transition: 0.3s ease;
+}
+
+.buttons ul li a:hover {
+	background-color: rgba(95, 158, 160, 0.603);
+	color: white;
+	box-shadow: 0px 0px 15px rgba(95, 158, 160, 0.4);
+	border: 1px solid rgba(95, 158, 160, 0.603);
+	cursor: pointer;
+}
+
+#incomeExpenseChart {
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+.container h1 {
+    width: 100vw;
+    text-align: center;
+    margin: 20px 0;
+    text-transform: uppercase;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.box {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 20px;
+}
+
+.box h3 {
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.mainChart {
+    width: 500px;
+}
+
+.chart-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.chart {
+    width: 500px;
+}
+
+.chartContainerChild {
+    padding: 30px 50px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    border: 1px solid #111;
+    border-radius: 3px;
+}
+
+#logout_btn {
+    background-color: crimson;
+    padding: 6px 15px;
+    border: 1px solid crimson;
+    border-radius: 33px;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s ease;
+  }
+  
+  .logout_form {
+	flex-direction: column;
+	gap: 20px;
+	border-radius: 7px;
+	padding: 30px 20px;
+	background-color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  }
+  
+  
+  
+  .logout_form .buttons .no {
+	padding: 7px 10px;
+	border-radius: 7px;
+	background-color: crimson;
+	color: white;
+	text-decoration: none;
+	border: 1px solid crimson;
+	cursor: pointer;
+	transition: 0.3s ease;
+  }
+  
+  .logout_form .buttons .no:hover {
+	padding: 7px 10px;
+	border-radius: 7px;
+	background-color: rgb(163, 2, 34);
+	color: white;
+	text-decoration: none;
+	border: 1px solid rgb(163, 2, 34);
+	cursor: pointer;
+  }
+  
+  .logout_form .yes {
+	padding: 7px 10px;
+	border-radius: 7px;
+	border: 1px solid rgb(0, 160, 0);
+	background-color: rgb(0, 160, 0);
+	color: white;
+	text-decoration: none;
+	cursor: pointer;
+	transition: 0.3s ease;
+  }
+  
+  .logout_form .yes:hover {
+	padding: 7px 10px;
+	border-radius: 7px;
+	border: 1px solid green;
+	background-color: green;
+	color: white;
+	text-decoration: none;
+	cursor: pointer;
+  }
+
+  #logout_btn:hover {
+    background-color: rgb(163, 0, 33);
+    color: white;
+    box-shadow: none;
+    border: 1px solid rgb(163, 0, 33);
+    cursor: pointer;
+  }
+
+  .logout_overlay {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }

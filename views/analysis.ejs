@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/stylesheets/analysis.css">
+</head>
+<body>
+    <div class="loader">
+        <div id="black">
+            <h1>ANALYSIS</h1>
+        </div>
+        <div id="ash"></div>
+    </div>
+    <header>
+        <div class="logo">CAT BURGLAR.</div>
+        <div class="buttons">
+            <ul>
+                <li><a href="/login">DASHBOARD</a></li>
+                <li><a href="#" class="active">ADD</a></li>
+                <li><a href="/settings">SETTINGS</a></li>
+                <li><button id="logout_btn" onclick="openLogoutForm()">LOGOUT</button></li>
+            </ul>
+        </div>
+    </header>
+
+    <% let totalIncome = 0 %>
+    <% let totalExpense = 0 %>
+    <% forms.forEach(element => { %>
+        <% totalIncome = totalIncome + parseInt(element.income) %>
+        <% totalExpense = totalExpense + parseInt(element.expense) %>
+    <% }); %>
+
+    <div class="container">
+        <h1>Analysis</h1>
+        <div class="box">
+            <div class="mainDetails">
+                <h3>Total Income: <%= totalIncome %></h3>
+                <h3>Total Expense: <%= totalExpense %></h3>
+            </div>
+            <div class="mainChart">
+                <canvas id="mainIncomeExpenseChart"></canvas>
+            </div>
+        </div>
+        
+
+        <!-- Create a separate canvas for each form -->
+        <div class="chart-container">
+        <% forms.forEach(form => { %>
+            <div class="chartContainerChild">
+            <h3>Transaction Type: <%= form.type %> <br> Details- <br> Income: <%= form.income %> <br> Expense: <%= form.expense %> </h3>
+            <div class="chart">
+                <canvas class="chart_" id="incomeExpenseChart_<%= form._id %>"></canvas>
+            </div>
+        </div>
+                <% }); %>
+            </div>
+    </div>
+    <div id="logout">
+        <div class="logout_overlay">
+            <div class="logout_form">
+                <h3>Are you sure you want to logout?</h3>
+                <div class="buttons">
+                    <a href="/logout"><button class="yes">YES</button></a>
+                    <button onclick="cancelLogout()" class="no">NO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const forms = JSON.parse('<%- JSON.stringify(forms) %>');
+    
+        // Create the main chart (line chart showing all forms' data)
+        const aggregatedChartData = {
+            labels: forms.map(form => `${form.transactionType} - ${form.details}`), // Use Transaction Type and Details as labels
+            datasets: [
+                {
+                    label: 'Income',
+                    data: forms.map(form => parseFloat(form.income)), // Map all income values
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    fill: false,
+                    pointRadius: 8,  // Increase dot size
+                    pointBackgroundColor: 'rgba(75, 192, 192, 1)',  // Dot color
+                    pointBorderColor: '#fff', // Dot border color
+                    pointBorderWidth: 2,  // Dot border width
+                    tension: 0,  // Straight lines between points (no curve)
+                },
+                {
+                    label: 'Expense',
+                    data: forms.map(form => parseFloat(form.expense)), // Map all expense values
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    fill: false,
+                    pointRadius: 8,  // Increase dot size
+                    pointBackgroundColor: 'rgba(255, 99, 132, 1)',  // Dot color
+                    pointBorderColor: '#fff', // Dot border color
+                    pointBorderWidth: 2,  // Dot border width
+                    tension: 0,  // Straight lines between points (no curve)
+                }
+            ]
+        };
+    
+        // Create the main chart (line chart showing all forms' data)
+        const mainChartCanvas = document.getElementById('mainIncomeExpenseChart').getContext('2d');
+        new Chart(mainChartCanvas, {
+            type: 'line',
+            data: aggregatedChartData,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Transaction Type and Details'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Amount'
+                        },
+                        beginAtZero: false,  // Avoid starting the Y-axis at zero to make the chart more clear
+                        ticks: {
+                            // Display more readable ticks for better clarity
+                            stepSize: 10  // Adjust as needed to suit your data
+                        }
+                    }
+                }
+            }
+        });
+    
+        // Create a chart for each form (individual charts)
+        forms.forEach(form => {
+            const chartData = {
+                labels: ['Income', 'Expense'], // Label the two categories: Income and Expense
+                datasets: [
+                    {
+                        label: 'Income',
+                        data: [parseFloat(form.income), parseFloat(form.income)], // Flat line for income
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false,
+                        pointRadius: 8,  // Increase dot size
+                        pointBackgroundColor: 'rgba(75, 192, 192, 1)',  // Dot color
+                        pointBorderColor: '#fff', // Dot border color
+                        pointBorderWidth: 2,  // Dot border width
+                        tension: 0,  // Straight lines between points (no curve)
+                        borderWidth: 2, // Line width for income
+                    },
+                    {
+                        label: 'Expense',
+                        data: [parseFloat(form.expense), parseFloat(form.expense)], // Flat line for expense
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        fill: false,
+                        pointRadius: 8,  // Increase dot size
+                        pointBackgroundColor: 'rgba(255, 99, 132, 1)',  // Dot color
+                        pointBorderColor: '#fff', // Dot border color
+                        pointBorderWidth: 2,  // Dot border width
+                        tension: 0,  // Straight lines between points (no curve)
+                        borderWidth: 2, // Line width for expense
+                    }
+                ]
+            };
+    
+            // Create a new canvas for each form's chart
+            const canvasId = `incomeExpenseChart_${form._id}`;
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Income vs Expense'
+                            },
+                            ticks: {
+                                // Adjust the labels for X axis to show the categories
+                                callback: function(value) {
+                                    return value === 0 ? 'Income' : 'Expense'; // Map values to categories
+                                }
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Amount'
+                            },
+                            // Start from zero, but adjust to avoid overlap of values
+                            beginAtZero: false,
+                            ticks: {
+                                // Ensuring there's a step size for the Y-axis
+                                stepSize: 10,  // Modify this depending on your data scale
+                                min: 0  // Minimum value for better visibility
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    
+    <script src="/javascripts/analysis.js"></script>
+</body>
+</html>

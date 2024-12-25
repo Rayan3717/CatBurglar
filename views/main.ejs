@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <div class="loader">
+        <div id="black"><h1>WELCOME BACK <br><%= user.name %>!</h1></div>
+        <div id="ash"></div>
+    </div>
+    <header>
+        <div class="logo">CAT BURGLAR.</div>
+        <div class="buttons">
+            <ul>
+                <li><a href="#" class="active">DASHBOARD</a></li>
+                <li><a href="/addPage">ADD</a></li>
+                <li><a href="/settings">SETTINGS</a></li>
+                <li><button id="logout_btn" onclick="openLogoutForm()">LOGOUT</button></li>
+            </ul>
+        </div>
+    </header>
+    <div class="container">
+        <div>
+            <%= user %>
+            <h1>Welcome <%= user.name %>!</h1>
+            <p>You can manage your data here...</p>
+        </div>
+        <div class="data">
+            <% if (user.data && user.data.length > 0) { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Income</th>
+                            <th>Expense</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% user.datas.forEach(data => { %>
+                            <tr>
+                                <td><%= data.type %></td>
+                                <td><%= data.income %></td>
+                                <td><%= data.expense %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p>NO DATA AVAILABLE</p>
+                <a href="/addPage"><button id="btn-add-data">ADD DATA</button></a>
+            <% } %>
+        </div>
+    </div>
+    <div id="logout">
+        <div class="logout_overlay">
+            <div class="logout_form">
+                <h3>Are you sure you want to logout?</h3>
+                <div class="buttons">
+                    <a href="/logout"><button class="yes">YES</button></a>
+                    <button onclick="cancelLogout()" class="no">NO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="error-overlay" id="errorOverlay" style="display: none;">
+        <div class="error-popup">
+            <h3>Error</h3>
+            <p id="errorText"></p>
+            <button onclick="closeErrorPopup()">Close</button>
+        </div>
+    </div>
+    <script src="/javascripts/script.js"></script>
+</body>
+</html>

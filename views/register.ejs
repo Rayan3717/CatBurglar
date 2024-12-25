@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/register.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <div class="loader">
+        <div id="black"><h1>REGISTER</h1></div>
+        <div id="ash"></div>
+    </div>
+    <header>
+        <div class="logo">CAT BURGLAR.</div>
+        <div class="buttons">
+            <ul>
+                <li><a href="/">HOME</a></li>
+                <li><a href="#">SUPPORT</a></li>
+                <li><a href="#">ABOUT</a></li>
+                <li><a href="/LOGIN">LOGIN</a></li>
+            </ul>
+        </div>
+    </header>
+	<div id="signup-popup_reg" class="popup_reg">
+		<p>Already Have an Account?</p>
+		<a href="/login"><button id="register-button">Login</button></a>
+	</div>	
+    <div class="form">
+        <img class="wave_reg" src="images/wave.png">
+	<div class="container">
+        <div class="login-content">
+			<form action="/createAccount" method="post">
+				<img src="images/avatar.svg">
+				<h2 class="title">CREATE YOUR ACCOUNT</h2>
+           		<div class="input-div one">
+           		   <div class="i">
+           		   		<i class="fas fa-user"></i>
+           		   </div>
+           		   <div class="div">
+           		   		<h5>Name</h5>
+           		   		<input type="text" name="name" class="input" required>
+           		   </div>
+           		</div>
+				   <div class="input-div email">
+					<div class="i"> 
+						 <i class="fas fa-envelope"></i>
+					</div>
+					<div class="div">
+						 <h5>Email</h5>
+						 <input type="email" name="email" class="input" required>
+				 </div>
+			  </div>
+           		<div class="input-div pass">
+           		   <div class="i"> 
+           		    	<i class="fas fa-lock"></i>
+           		   </div>
+           		   <div class="div">
+           		    	<h5>Password</h5>
+           		    	<input type="password" name="password" class="input" required>
+            	   </div>
+            	</div>
+            	<a href="#">Forgot Password?</a>
+            	<input type="submit" class="btn" value="Register">
+            </form>
+        </div>
+		<div class="img">
+			<img src="images/money.webp">
+		</div>
+    </div>
+    </div>
+    <script src="/javascripts/register.js"></script>
+</body>
+</html>

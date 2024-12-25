@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/add.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+        integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <div class="loader">
+        <div id="black">
+            <h1>ADD YOUR TRANSACTIONS HERE</h1>
+        </div>
+        <div id="ash"></div>
+    </div>
+    <header>
+        <div class="logo">CAT BURGLAR.</div>
+        <div class="buttons">
+            <ul>
+                <li><a href="/login">DASHBOARD</a></li>
+                <li><a href="#" class="active">ADD</a></li>
+                <li><a href="/settings">SETTINGS</a></li>
+                <li><button id="logout_btn" onclick="openLogoutForm()">LOGOUT</button></li>
+            </ul>
+        </div>
+    </header>
+    <div class="background"></div>
+    <div class="container">
+        <h1>ADD YOUR TRANSACTION HERE</h1>
+        <button class="add" onclick="createForm()">+ ADD</button>
+        <form id="formsContainer" method="POST" action="/add">
+            <!-- Dynamically added forms will go here -->
+        </form>
+        <button class="submitAll" style="display: none;" onclick="submitAllForms()">SUBMIT</button>
+    </div>
+    <div id="logout">
+        <div class="logout_overlay">
+            <div class="logout_form">
+                <h3>Are you sure you want to logout?</h3>
+                <div class="buttons">
+                    <a href="/logout"><button class="yes">YES</button></a>
+                    <button onclick="cancelLogout()" class="no">NO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <body>
+        <script src="/javascripts/add.js"></script>
+    </body>
+
+</html>
