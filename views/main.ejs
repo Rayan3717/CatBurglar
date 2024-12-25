@@ -26,12 +26,12 @@
     </header>
     <div class="container">
         <div>
-            <%= user %>
+            <%= user.datas %>
             <h1>Welcome <%= user.name %>!</h1>
             <p>You can manage your data here...</p>
         </div>
         <div class="data">
-            <% if (user.data && user.data.length > 0) { %>
+            <% if (user.datas && user.datas.length > 0) { %>
                 <table>
                     <thead>
                         <tr>

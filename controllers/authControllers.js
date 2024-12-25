@@ -54,14 +54,23 @@ module.exports.loginPage = async function (req, res) {
         if (!token) {
             return res.render("login");
         }
+
+        // Verify the JWT token
         const email = jwt.verify(token, process.env.JWT_SECRET);
         if (!email) {
             return res.render("login");
         }
+
+        // Find the user based on the email from the token
         const user = await userModel.findOne({ email }).populate("datas");
         if (!user) {
             return res.render("login");
         }
+
+        // Hide the password field before sending the user data to the frontend
+        user.password = undefined;
+
+        // Render the main page and pass the user object
         res.render("main", { user });
     } catch (error) {
         console.log(error);
@@ -69,10 +78,12 @@ module.exports.loginPage = async function (req, res) {
     }
 };
 
+
 module.exports.login = async function (req, res) {
     try {
         const { email, password } = req.body;
-        const user = await userModel.findOne({ email }).populate("datas");
+        const user = await userModel.findOne({ email }).populate('datas');
+        console.log(user)
         if (!user) {
             console.log("Redirecting with error: User not found");
             return res.redirect('/login?error=' + encodeURIComponent('User not found'));
@@ -124,52 +135,52 @@ module.exports.add = async function (req, res) {
         if (!user) {
             return res.status(401).json({ error: "Unauthorized Access" });
         }
+        
         const forms = req.body; // Forms sent from the frontend
         if (!forms || Object.keys(forms).length === 0) {
             return res.status(400).json({ error: "No forms provided" });
         }
-        console.log("Received forms:", forms);
 
-        // Save each form to the database
         const formIds = [];
         for (const key in forms) {
             const form = forms[key];
-            console.log("FOOOORRMMMMM:", form)
-            // Normalize keys (remove trailing underscores)
             const paymentMode = form.paymentMode;
-            let income = parseFloat(form.income) || 0;  // Convert income to a number
-            let expense = parseFloat(form.expense) || 0;  // Convert expense to a number
+            let income = parseFloat(form.income) || 0; // Convert income to a number
+            let expense = parseFloat(form.expense) || 0; // Convert expense to a number
 
-            // Check for missing data
+            // Skip invalid data
             if (!paymentMode || isNaN(income) || isNaN(expense)) {
                 console.warn(`Incomplete form data for key ${key}:`, form);
-                continue; // Skip invalid form
+                continue;
             }
 
             const data = new dataModel({
                 type: paymentMode,
-                expense: expense,
-                income: income,
+                expense,
+                income,
                 owner: user._id,
             });
 
-            console.log("Parsed and normalized data:", data); // Log normalized data
             const savedData = await data.save();
-            formIds.push(savedData._id); // Collect saved document IDs
+            formIds.push(savedData._id);
+
+            // Update user's `datas` array
+            user.datas.push(savedData._id);
         }
 
-        console.log("Form IDs to redirect:", formIds); // Debugging log
+        // Save the updated user document
+        await user.save();
+
         if (formIds.length > 0) {
-            // Redirect to analysis route with form IDs
             res.redirect(`/analysis/${formIds.join(",")}`);
         } else {
-            console.warn("No valid form data was saved.");
-            res.status(400).json({ error: "No valid form data" });
+            res.status(400).json({ error: "No valid form data was saved" });
         }
     } catch (error) {
         console.error("Error in /add route:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
 
 
